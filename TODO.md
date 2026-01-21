@@ -1,47 +1,41 @@
-# Pour développer une fonctionnalité,
+Pour développer une fonctionnalité, comment procéder (workflow)
+Créer une nouvelle branche (brouillon)
+'''git branch nom-de-la-branche'''
 
-## Comment procéder (workflow)
+Se positionner sur la branche
+'''git switch nom-de-la-branche'''
 
-1. Créer une nouvelle branche (brouillon)
-    - ```git branch nom-de-la-branche```
+Développer la fonctionnalité
 
-2. Se positionner sur la branche
-    - ```git switch nom-de-la-branche```
+Comment livrer notre code après avoir développé une fonctionnalité?
+Vérifier la syntaxe du code
+php vendor/bin/php-cs-fixer fix src
 
-3. Développer la fonctionnalité
+Vérifier la logique
+php vendor/bin/phpstan analyse
+Ignorer les erreurs qui ne sont pas dans le fichier de confoguration de php stan
+'''parameters:
+         level: 6
+         paths:
+src/
+tests/
+     ignoreErrors:
+'#Call to function method_exists() with .Symfony\\Component\\Dotenv\\Dotenv.bootEnv.*will always evaluate to true#'
+'#Property App\Entity\User::$id (int|null) is never assigned int so it can be removed from the property type#'
 
+Vérifier les linters
+symfony console lint:twig
+symfony console lint:container
+symfony console lint:yaml config
 
-## Comment livrer notre code après avoir développé une fonctionnalité?
-
-1. Vérifier la syntaxe du code
-    - ```php vendor/bin/php-cs-fixer fix src```
-
-2. Vérifier la logique
-    - ```git```
-    - Ignorer les erreurs qui en réalité ne le sont pas, dans le fichier de configuration de php stan
-        - ```
-            parameters:
-                level: 6
-                paths:
-                    - src/
-                    - tests/
-                ignoreErrors:
-                    - '#Call to function method_exists\(\) with .*Symfony\\\\Component\\\\Dotenv\\\\Dotenv.*bootEnv.*will always evaluate to true#'
-                    - '#Property App\\Entity\\User::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'```
-
-3. Vérifier les linters
-    - ```symfony console lint:twig```
-    - ```symfony console lint:container```
-    - ```symfony console lint:yaml config```
-
-4. Sauvegarder et envoyer le code sur GitHub
-    - Ajouter le code dans la zone de transit
-        - ```git add .```
-    - Sauvegarder l'application
-        - ```git commit -m "Message du commit"```
-    - Envoyer le code sur la branche créée
-        - ```git push origin ...```
-    - Proposer ce code pour la fusion 
-        - (Pull Request)
-    - Après la revue de code, fusionner le brouillon (branche) au main 
-        - (Merge Request) 
+Sauvegarder et envoyer le code sur GitHub
+Ajouter le code dans la zone de transit
+git add .
+Sauvegarder l'application
+git commit -m "Message du commit"
+Envoyer le code sur la branche créée
+git push --set-upstream origin nom-de-la-branche
+Proposer ce code pour la fusion 
+(Pull Request)
+Après la revue de code, fusionner le brouillon (branche) au main 
+(Merge Request)
