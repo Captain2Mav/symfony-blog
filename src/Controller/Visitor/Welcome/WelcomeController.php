@@ -1,6 +1,6 @@
 <?php
-namespace App\Controller\Visitor\Welcome;
 
+namespace App\Controller\Visitor\Welcome;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,4 +14,3 @@ final class WelcomeController extends AbstractController
         return $this->render('pages/visitor/welcome/index.html.twig');
     }
 }
-

@@ -39,7 +39,7 @@
         
         
     </head>
-    <body>
+    <body class ="body-visitor">
         
         {# Navbar #}
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -77,8 +77,10 @@
         </nav>
 
         {# Main #}
-
+        <main>
+        {% block main %}{% endblock %}
+        </main>
         {# Footer #}
-
+         <footer class ="text-center">Captain </footer>
     </body>
 </html>
