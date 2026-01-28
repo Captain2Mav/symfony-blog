@@ -41,3 +41,8 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+
+            # configure the maximum login attempts
+            login_throttling:
+                max_attempts: 1          # per minute ...
+                # interval: '15 minutes' # ... or in a custom period
