@@ -60,11 +60,28 @@ final class CategoryController extends AbstractController
 
             $entityManager->persist($category);
             $entityManager->flush();
-            $this->addFlash('success', 'La catégorie à été modifiée');
+
+            $this->addFlash('success', 'La catégorie a été modifiée');
+
+            return $this->redirectToRoute('app_admin_category_index');
         }
 
         return $this->render('pages/admin/category/edit.html.twig', [
             'categoryForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('/category/{id<\d+>}/delete', name: 'app_admin_category_delete', methods: ['POST'])]
+    public function delete(Category $category, Request $request, EntityManagerInterface $entityManager): Response {
+
+        if ( $this->isCsrfTokenValid("category-{$category->getId()}", $request->request->get('csrf_token')) ) {
+            $entityManager->remove($category);
+            $entityManager->flush();
+
+            $this->addFlash("success", "La catégorie a été modifiée");
+        }
+
+        return $this->redirectToRoute("app_admin_category_index");
+
     }
 }
