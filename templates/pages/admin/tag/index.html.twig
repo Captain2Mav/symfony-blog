@@ -4,7 +4,7 @@
 
 {% block description %}Consultez la liste des tags{% endblock %}
 
-{% block keywords %}Consultation, lecture, liste, catégories{% endblock %}
+{% block keywords %}Consultation, lecture, liste, tags{% endblock %}
 
 {% block j_query %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -39,13 +39,27 @@
                 <tr>
                     <th>Nom</th>
                     <th>Slug</th>
-                    <th>Créée le</th>
+                    <th>Crée le</th>
                     <th>Modifiée le</th>
                     <th>Options</th>
                 </tr>
             </thead>
             <tbody>
-           
+                {% for tag in tags %}
+                    <tr>
+                        <td>{{tag.name}}</td>
+                        <td>{{tag.slug}}</td>
+                        <td>{{tag.createdAt|format_date()}}</td>
+                        <td>{{tag.updatedAt|format_date()}}</td>
+                        <td class="d-flex justify-content-center align-items-center gap-1">
+                            <a href="{{path('app_admin_tag_edit', {'id':tag.id})}}" class="btn btn-sm btn-secondary"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
+                            <form action="{{path('app_admin_tag_delete', {'id':tag.id})}}" method="post">
+                                <input type="hidden" name="csrf_token" value="{{csrf_token('tag-'~tag.id)}}">
+                                <button onclick="return confirm('Confirmer la suppression de ce tag?')" type="submit" class="btn btn-sm btn-danger"><i class="fa-solid fa-delete-left"></i> Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

@@ -4,8 +4,9 @@ namespace App\Entity;
 
 use App\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 // DON'T forget the following use statement!!!
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity('name', message: 'Ce tag existe déjà.')]
@@ -25,6 +26,7 @@ class Tag
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
+    #[Gedmo\Slug(fields: ['name'])]
     #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
